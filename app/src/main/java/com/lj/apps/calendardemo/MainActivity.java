@@ -11,17 +11,15 @@ import com.youth.banner.Banner;
 
 public class MainActivity extends AppCompatActivity {
     MaterialCalendarView mcv;
-    Banner banner;
-    String[] images = new String[]{"url"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mcv = (MaterialCalendarView) findViewById(R.id.calendarView);
-        banner = (Banner) findViewById(R.id.banner);
         show();
-        showBanner();
+
     }
 
 
@@ -34,7 +32,5 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private void showBanner() {
-        banner.setImages(images);
-    }
+
 }
