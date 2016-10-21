@@ -1,7 +1,6 @@
 package com.lj.apps.calendardemo.ui;
 
 
-import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -16,7 +15,7 @@ import com.lj.apps.calendardemo.Utils.SensorInfo;
 import com.lj.apps.calendardemo.widget.Ball;
 
 
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends BaseActivity implements SensorEventListener {
     GLSurfaceView mGlSurfaceView;
     Ball mBall;
     private float mPreviousY;
@@ -87,27 +86,25 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
-//        if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-
-        if (timestamp != 0) {
-            final float dT = (event.timestamp - timestamp) * NS2S;
-            angle[0] += event.values[0] * dT;
-            angle[1] += event.values[1] * dT;
-            angle[2] += event.values[2] * dT;
-            float angle_x = (float) Math.toDegrees(angle[0]);
-            float angle_y = (float) Math.toDegrees(angle[1]);
-            float angle_z = (float) Math.toDegrees(angle[2]);
-            SensorInfo info = new SensorInfo();
-            info.setSensorX(angle_y);
-            info.setSensorY(angle_x);
-            info.setSensorZ(angle_z);
-            Message msg = new Message();
-            msg.what = 101;
-            msg.obj = info;
-            mHandler.sendMessage(msg);
+        if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+            if (timestamp != 0) {
+                final float dT = (event.timestamp - timestamp) * NS2S;
+                angle[0] += event.values[0] * dT;
+                angle[1] += event.values[1] * dT;
+                angle[2] += event.values[2] * dT;
+                float angle_x = (float) Math.toDegrees(angle[0]);
+                float angle_y = (float) Math.toDegrees(angle[1]);
+                float angle_z = (float) Math.toDegrees(angle[2]);
+                SensorInfo info = new SensorInfo();
+                info.setSensorX(angle_y);
+                info.setSensorY(angle_x);
+                info.setSensorZ(angle_z);
+                Message msg = new Message();
+                msg.what = 101;
+                msg.obj = info;
+                mHandler.sendMessage(msg);
+            }
         }
-        //  }
         timestamp = event.timestamp;
 
     }

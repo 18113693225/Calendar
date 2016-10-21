@@ -48,7 +48,7 @@ public class Ball implements Renderer {
         double perW = 1 / (float) perVertex;
         double perH = 1 / (float) (perVertex);
 
-        ArrayList<Float> vetexList = new ArrayList<Float>();
+        ArrayList<Float> vetList = new ArrayList<Float>();
         ArrayList<Float> textureList = new ArrayList<Float>();
         for (int a = 0; a < perVertex; a++) {
             for (int b = 0; b < perVertex; b++) {
@@ -106,32 +106,32 @@ public class Ball implements Renderer {
                         .sin((b + 1) * perRadius));
                 float y4 = (float) Math.cos(a * perRadius / 2);
 
-                vetexList.add(x1);
-                vetexList.add(y1);
-                vetexList.add(z1);
+                vetList.add(x1);
+                vetList.add(y1);
+                vetList.add(z1);
 
-                vetexList.add(x2);
-                vetexList.add(y2);
-                vetexList.add(z2);
+                vetList.add(x2);
+                vetList.add(y2);
+                vetList.add(z2);
 
-                vetexList.add(x3);
-                vetexList.add(y3);
-                vetexList.add(z3);
+                vetList.add(x3);
+                vetList.add(y3);
+                vetList.add(z3);
 
-                vetexList.add(x3);
-                vetexList.add(y3);
-                vetexList.add(z3);
+                vetList.add(x3);
+                vetList.add(y3);
+                vetList.add(z3);
 
-                vetexList.add(x4);
-                vetexList.add(y4);
-                vetexList.add(z4);
+                vetList.add(x4);
+                vetList.add(y4);
+                vetList.add(z4);
 
-                vetexList.add(x1);
-                vetexList.add(y1);
-                vetexList.add(z1);
+                vetList.add(x1);
+                vetList.add(y1);
+                vetList.add(z1);
             }
         }
-        mSize = vetexList.size() / 3;
+        mSize = vetList.size() / 3;
         float texture[] = new float[mSize * 2];
         for (int i = 0; i < texture.length; i++) {
             texture[i] = textureList.get(i);
@@ -141,13 +141,13 @@ public class Ball implements Renderer {
         textureBuff.put(texture);
         textureBuff.position(0);
 
-        float vetex[] = new float[mSize * 3];
-        for (int i = 0; i < vetex.length; i++) {
-            vetex[i] = vetexList.get(i);
+        float vet[] = new float[mSize * 3];
+        for (int i = 0; i < vet.length; i++) {
+            vet[i] = vetList.get(i);
         }
-        vertexBuff = ByteBuffer.allocateDirect(vetex.length * 4)
+        vertexBuff = ByteBuffer.allocateDirect(vet.length * 4)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        vertexBuff.put(vetex);
+        vertexBuff.put(vet);
         vertexBuff.position(0);
 
     }
@@ -165,7 +165,7 @@ public class Ball implements Renderer {
         glActiveTexture(GLES20.GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textrueID);
         glUniformMatrix4fv(mUProjectMatrixHandler, 1, false,
-                getfinalMVPMatrix(), 0);
+                getFinalMVPMatrix(), 0);
         glDrawArrays(GL_TRIANGLES, 0, mSize);
     }
 
@@ -177,7 +177,7 @@ public class Ball implements Renderer {
 
     final float mMVPMatrix[] = new float[16];
 
-    public float[] getfinalMVPMatrix() {
+    public float[] getFinalMVPMatrix() {
         Matrix.multiplyMM(mMVPMatrix, 0, projectMatrix, 0, mCurrMatrix, 0);
         Matrix.setIdentityM(mCurrMatrix, 0);
         return mMVPMatrix;
