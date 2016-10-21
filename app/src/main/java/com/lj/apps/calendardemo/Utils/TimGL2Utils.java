@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -62,8 +61,6 @@ public class TimGL2Utils {
         glAttachShader(program, vertexShader);
         glAttachShader(program, fragmentShader);
         glLinkProgram(program);
-
-        System.out.println("program:" + program);
         return program;
     }
 
@@ -107,7 +104,6 @@ public class TimGL2Utils {
     public static void checkGlError(String op) {
         int error;
         while ((error = glGetError()) != GL_NO_ERROR) {
-            Log.e("ES20_ERROR", op + ": glError " + error);
             throw new RuntimeException(op + ": glError " + error);
         }
     }

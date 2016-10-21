@@ -1,6 +1,7 @@
 package com.lj.apps.calendardemo.ui;
 
 
+import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,14 +10,13 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.lj.apps.calendardemo.Utils.SensorInfo;
 import com.lj.apps.calendardemo.widget.Ball;
 
 
-public class MainActivity extends BaseActivity implements SensorEventListener {
+public class MainActivity extends Activity implements SensorEventListener {
     GLSurfaceView mGlSurfaceView;
     Ball mBall;
     private float mPreviousY;
@@ -87,9 +87,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        Log.e("TAG", event.sensor.getType() + "");
+
 //        if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-        Log.e("TAG", "onSensorChanged:");
+
         if (timestamp != 0) {
             final float dT = (event.timestamp - timestamp) * NS2S;
             angle[0] += event.values[0] * dT;

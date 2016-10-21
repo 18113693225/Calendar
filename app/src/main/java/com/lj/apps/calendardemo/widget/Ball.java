@@ -1,12 +1,7 @@
 package com.lj.apps.calendardemo.widget;
 
-import android.content.Context;
-import android.opengl.GLES20;
-import android.opengl.GLSurfaceView;
-import android.opengl.Matrix;
-
-import com.lj.apps.calendardemo.R;
-import com.lj.apps.calendardemo.Utils.TimGL2Utils;
+import static android.opengl.GLES20.*;
+import static android.opengl.Matrix.*;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -16,32 +11,19 @@ import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
-import static android.opengl.GLES20.GL_DEPTH_BUFFER_BIT;
-import static android.opengl.GLES20.GL_FLOAT;
-import static android.opengl.GLES20.GL_TEXTURE_2D;
-import static android.opengl.GLES20.GL_TRIANGLES;
-import static android.opengl.GLES20.glActiveTexture;
-import static android.opengl.GLES20.glBindTexture;
-import static android.opengl.GLES20.glClear;
-import static android.opengl.GLES20.glClearColor;
-import static android.opengl.GLES20.glDrawArrays;
-import static android.opengl.GLES20.glEnableVertexAttribArray;
-import static android.opengl.GLES20.glGetAttribLocation;
-import static android.opengl.GLES20.glGetUniformLocation;
-import static android.opengl.GLES20.glUniformMatrix4fv;
-import static android.opengl.GLES20.glUseProgram;
-import static android.opengl.GLES20.glVertexAttribPointer;
-import static android.opengl.GLES20.glViewport;
-import static android.opengl.Matrix.frustumM;
-import static android.opengl.Matrix.rotateM;
-import static android.opengl.Matrix.scaleM;
-import static android.opengl.Matrix.translateM;
+import android.content.Context;
+import android.opengl.GLES20;
+import android.opengl.GLSurfaceView.Renderer;
+import android.opengl.Matrix;
+
+import com.lj.apps.calendardemo.R;
+import com.lj.apps.calendardemo.Utils.TimGL2Utils;
+
 
 /**
  * Created by Administrator on 2016/10/21.
  */
-public class Ball implements GLSurfaceView.Renderer {
+public class Ball implements Renderer {
     Context mContext;
     private int mProgram;
     private int mAPositionHandler;
