@@ -223,7 +223,7 @@ public class Ball implements GLSurfaceView.Renderer {
                 "uProjectMatrix");
         mATextureCoordHandler = glGetAttribLocation(mProgram, "aTextureCoord");
 
-        textrueID = TimGL2Utils.initTexture(mContext, R.drawable.image360);
+        textrueID = TimGL2Utils.initTexture(mContext, R.drawable.p1);
 
         glVertexAttribPointer(mAPositionHandler, 3, GL_FLOAT, false, 0,
                 vertexBuff);
