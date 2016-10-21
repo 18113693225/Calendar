@@ -38,9 +38,6 @@ captures/
 *.iml
 .idea/
 
-# Keystore files
-*.jks
-
 # SVN files
 *.svn
 .svn/
