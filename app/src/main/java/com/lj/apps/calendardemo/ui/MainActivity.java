@@ -9,10 +9,13 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.lj.apps.calendardemo.Utils.SensorInfo;
 import com.lj.apps.calendardemo.widget.Ball;
+
+import support.ui.utilities.ToastUtils;
 
 
 public class MainActivity extends BaseActivity implements SensorEventListener {
@@ -40,8 +43,11 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
     private void initSensor() {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        sensorManager.registerListener(this, gyroscopeSensor,
-                SensorManager.SENSOR_DELAY_GAME);
+        if (null != gyroscopeSensor) {
+            sensorManager.registerListener(this, gyroscopeSensor,
+                    SensorManager.SENSOR_DELAY_GAME);
+        }
+
     }
 
     @Override
