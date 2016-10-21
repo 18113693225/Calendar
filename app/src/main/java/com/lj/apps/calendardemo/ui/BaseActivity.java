@@ -1,4 +1,4 @@
-package com.lj.apps.calendardemo;
+package com.lj.apps.calendardemo.ui;
 
 import com.smartydroid.android.starter.kit.app.StarterActivity;
 
