@@ -1,6 +1,5 @@
 package com.lj.apps.calendardemo.widget;
 
-
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -42,8 +41,7 @@ import static android.opengl.Matrix.translateM;
 /**
  * Created by Administrator on 2016/10/21.
  */
-public class CustomRenderer implements GLSurfaceView.Renderer {
-
+public class Ball implements GLSurfaceView.Renderer {
     Context mContext;
     private int mProgram;
     private int mAPositionHandler;
@@ -56,7 +54,7 @@ public class CustomRenderer implements GLSurfaceView.Renderer {
     private FloatBuffer textureBuff;
     private int textrueID;
 
-    public CustomRenderer(Context context) {
+    public Ball(Context context) {
         mContext = context;
         init();
     }
@@ -225,9 +223,7 @@ public class CustomRenderer implements GLSurfaceView.Renderer {
                 "uProjectMatrix");
         mATextureCoordHandler = glGetAttribLocation(mProgram, "aTextureCoord");
 
-
         textrueID = TimGL2Utils.initTexture(mContext, R.drawable.image360);
-
 
         glVertexAttribPointer(mAPositionHandler, 3, GL_FLOAT, false, 0,
                 vertexBuff);
