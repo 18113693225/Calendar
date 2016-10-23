@@ -103,8 +103,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-            float a = Math.abs(timestamp - event.timestamp);
-            Log.i("TAG==", a + "");
             if (timestamp != 0) {
                 final float dT = (event.timestamp - timestamp) * NS2S;
                 angle[0] += event.values[0] * dT;
@@ -123,7 +121,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
                     msg.obj = info;
                     mHandler.sendMessage(msg);
                 }
-
             }
         }
         timestamp = event.timestamp;
