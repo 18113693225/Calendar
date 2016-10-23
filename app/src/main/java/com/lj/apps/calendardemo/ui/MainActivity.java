@@ -15,8 +15,6 @@ import android.view.MotionEvent;
 import com.lj.apps.calendardemo.Utils.SensorInfo;
 import com.lj.apps.calendardemo.widget.Ball;
 
-import support.ui.utilities.ToastUtils;
-
 
 public class MainActivity extends BaseActivity implements SensorEventListener {
     GLSurfaceView mGlSurfaceView;
@@ -28,6 +26,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
     private static final float NS2S = 1.0f / 1000000000.0f;
     private float timestamp;
     private float angle[] = new float[3];
+    private boolean flag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +44,32 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
         gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         if (null != gyroscopeSensor) {
             sensorManager.registerListener(this, gyroscopeSensor,
-                    SensorManager.SENSOR_DELAY_GAME);
+                    SensorManager.SENSOR_DELAY_NORMAL);
         }
 
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         float y = e.getY();
         float x = e.getX();
         switch (e.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                flag = false;
+                break;
             case MotionEvent.ACTION_MOVE:
+                flag = false;
                 float dy = y - mPreviousY;
                 float dx = x - mPreviousX;
                 mBall.yAngle += dx * 0.3f;
                 mBall.xAngle += dy * 0.3f;
+                break;
+            case MotionEvent.ACTION_UP:
+                flag = true;
+                break;
+            default:
+                break;
         }
         mPreviousY = y;
         mPreviousX = x;
@@ -93,6 +103,8 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+            float a = Math.abs(timestamp - event.timestamp);
+            Log.i("TAG==", a + "");
             if (timestamp != 0) {
                 final float dT = (event.timestamp - timestamp) * NS2S;
                 angle[0] += event.values[0] * dT;
@@ -101,14 +113,17 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
                 float angle_x = (float) Math.toDegrees(angle[0]);
                 float angle_y = (float) Math.toDegrees(angle[1]);
                 float angle_z = (float) Math.toDegrees(angle[2]);
-                SensorInfo info = new SensorInfo();
-                info.setSensorX(angle_y);
-                info.setSensorY(angle_x);
-                info.setSensorZ(angle_z);
-                Message msg = new Message();
-                msg.what = 101;
-                msg.obj = info;
-                mHandler.sendMessage(msg);
+                if (flag) {
+                    SensorInfo info = new SensorInfo();
+                    info.setSensorX(angle_y);
+                    info.setSensorY(angle_x);
+                    info.setSensorZ(angle_z);
+                    Message msg = new Message();
+                    msg.what = 101;
+                    msg.obj = info;
+                    mHandler.sendMessage(msg);
+                }
+
             }
         }
         timestamp = event.timestamp;
