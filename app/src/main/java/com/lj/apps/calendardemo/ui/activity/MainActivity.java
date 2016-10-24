@@ -77,14 +77,10 @@ public class MainActivity extends BaseActivity implements
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 totalDy -= dy;
-                Log.i("TAG", "移动" + totalDy);
                 if (totalDy < 0 && totalDy > -600) {
-                    Double f = totalDy / 600;
-                    Double l = f * 255;
-                    int a = (int) Math.abs(l);
+                    int a = (int) Math.abs((totalDy / 600) * 255);
                     img.setAlpha(255 - a);
                 }
-
             }
         });
     }
