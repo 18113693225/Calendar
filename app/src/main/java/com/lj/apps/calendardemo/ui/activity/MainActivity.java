@@ -1,13 +1,19 @@
 package com.lj.apps.calendardemo.ui.activity;
 
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnScrollListener;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.lj.apps.calendardemo.Navigator;
 import com.lj.apps.calendardemo.R;
@@ -27,15 +33,20 @@ import java.util.List;
 import butterknife.Bind;
 
 
-public class MainActivity extends BaseActivity implements OnBannerClickListener,
+public class MainActivity extends BaseActivity implements
         HomeAdapter.OnItemClickListener {
     @Bind(R.id.banner)
-    Banner mBanner;
+    ImageView img;
     @Bind(R.id.rv)
     RecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
     private ArrayList<Integer> images = new ArrayList<>();
     private ArrayList<Home> homes = new ArrayList<>();
+
+    private Boolean mScaling = false;
+    private DisplayMetrics metric;
+    private LinearLayoutManager mLinearLayoutManager;
+    private float mFirstPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +55,16 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
         initBanner();
         initData();
         init();
-        showBanner(images);
+        //  showBanner(images);
     }
 
     private void init() {
+        metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) img.getLayoutParams();
+        lp.width = metric.widthPixels;
+        lp.height = metric.widthPixels * 9 / 16;
+        img.setLayoutParams(lp);
         showRecyclerView();
     }
 
@@ -66,19 +83,21 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
     }
 
     private void showBanner(List<Integer> Images) {
-        mBanner.setImageLoader(new GlideImageLoader());
-        mBanner.setImages(Images);
-        mBanner.setBannerAnimation(Transformer.DepthPage);
-        mBanner.setIndicatorGravity(BannerConfig.CENTER);
-        mBanner.setDelayTime(6000);
-        mBanner.setOnBannerClickListener(this);
-        mBanner.start();
+//        mBanner.setImageLoader(new GlideImageLoader());
+//        mBanner.setImages(Images);
+//        mBanner.setBannerAnimation(Transformer.DepthPage);
+//        mBanner.setIndicatorGravity(BannerConfig.CENTER);
+//        mBanner.setDelayTime(6000);
+//        mBanner.setOnBannerClickListener(this);
+//        mBanner.start();
     }
 
     private void showRecyclerView() {
-        recyclerViewListener();
+        if (null == mLinearLayoutManager) {
+            mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        }
         mAdapter = new HomeAdapter(MainActivity.this, homes, this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
                 .size(1)
                 .color(getResources().getColor(R.color.bg_line))
@@ -86,30 +105,63 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void recyclerViewListener() {
-        mRecyclerView.addOnScrollListener(new OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                Log.i("TAG", "newState" + newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                Log.i("TAG", "x" + dx + "  " + "y" + dy);
-            }
-        });
-    }
-
-    @Override
-    public void OnBannerClick(int position) {
-        Log.i("TAG", position + "");
-    }
-
 
     @Override
     public void onItemClick(View v, Home home, int position) {
         Navigator.startDetailsActivity(this);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) img.getLayoutParams();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+                mScaling = false;
+                replyImage();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (!mScaling) {
+                    //当图片也就是第一个item完全可见的时候，记录触摸屏幕的位置
+                    if (mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
+                        mFirstPosition = event.getY();
+                    } else {
+                        break;
+                    }
+                }
+                int distance = (int) ((event.getY() - mFirstPosition) * 0.6); // 滚动距离乘以一个系数
+                if (distance < 0) {
+                    break;
+                }
+                // 处理放大
+                mScaling = true;
+                lp.width = metric.widthPixels + distance;
+                lp.height = (metric.widthPixels + distance) * 9 / 16;
+                img.setLayoutParams(lp);
+                return true;
+        }
+        return false;
+    }
+
+    private void replyImage() {
+        final FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) img.getLayoutParams();
+        final float w = img.getLayoutParams().width;// 图片当前宽度
+        final float h = img.getLayoutParams().height;// 图片当前高度
+        final float newW = metric.widthPixels;// 图片原宽度
+        final float newH = metric.widthPixels * 9 / 16;// 图片原高度
+
+        // 设置动画
+        ValueAnimator anim = ObjectAnimator.ofFloat(0.0F, 1.0F).setDuration(200);
+
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float cVal = (Float) animation.getAnimatedValue();
+                lp.width = (int) (w - (w - newW) * cVal);
+                lp.height = (int) (h - (h - newH) * cVal);
+                img.setLayoutParams(lp);
+            }
+        });
+        anim.start();
+
     }
 }
