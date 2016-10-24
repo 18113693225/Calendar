@@ -1,10 +1,12 @@
-package com.lj.apps.calendardemo.ui;
+package com.lj.apps.calendardemo.activity;
 
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.lj.apps.calendardemo.R;
@@ -16,6 +18,7 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerClickListener;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 
 import java.util.ArrayList;
@@ -24,12 +27,12 @@ import java.util.List;
 import butterknife.Bind;
 
 
-public class MainActivity extends BaseActivity implements OnBannerClickListener, PullLoadMoreRecyclerView.PullLoadMoreListener,
+public class MainActivity extends BaseActivity implements OnBannerClickListener,
         HomeAdapter.OnItemClickListener {
     @Bind(R.id.banner)
     Banner mBanner;
-    @Bind(R.id.oder_rv)
-    PullLoadMoreRecyclerView mRecyclerView;
+    @Bind(R.id.rv)
+    RecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
     private ArrayList<Integer> images = new ArrayList<>();
     private ArrayList<Home> homes = new ArrayList<>();
@@ -45,11 +48,7 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
     }
 
     private void init() {
-        mRecyclerView.setOnPullLoadMoreListener(this);
-        mRecyclerView.setPullRefreshEnable(true);
-        mRecyclerView.setPushRefreshEnable(true);
-        mRecyclerView.setFooterViewText("loading");
-        mRecyclerView.setFooterViewTextColor(R.color.colorAccent);
+
         showRecyclerView();
     }
 
@@ -66,7 +65,6 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
             home.image = images.get(0);
             homes.add(home);
         }
-        mRecyclerView.setPullLoadMoreCompleted();
     }
 
     private void showBanner(List<Integer> Images) {
@@ -81,39 +79,23 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
 
     private void showRecyclerView() {
         mAdapter = new HomeAdapter(MainActivity.this, homes, this);
-        mRecyclerView.setLinearLayout();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
+                .size(1)
+                .color(getResources().getColor(R.color.bg_line))
+                .build());
         mRecyclerView.setAdapter(mAdapter);
     }
 
 
     @Override
     public void OnBannerClick(int position) {
-
+        Log.i("TAG", position + "");
     }
 
-    @Override
-    public void onRefresh() {
-        new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                homes.clear();
-                initData();
-            }
-        }.sendEmptyMessageDelayed(0, 1000);
-    }
-
-    @Override
-    public void onLoadMore() {
-        new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                initData();
-            }
-        }.sendEmptyMessageDelayed(0, 1000);
-    }
 
     @Override
     public void onItemClick(View v, Home home, int position) {
-
+        Log.i("TAG", home.title);
     }
 }

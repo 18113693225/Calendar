@@ -1,4 +1,4 @@
-package com.lj.apps.calendardemo.ui;
+package com.lj.apps.calendardemo.activity;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -8,11 +8,8 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.TabLayout;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 
-import com.lj.apps.calendardemo.R;
 import com.lj.apps.calendardemo.Utils.SensorInfo;
 import com.lj.apps.calendardemo.widget.Ball;
 

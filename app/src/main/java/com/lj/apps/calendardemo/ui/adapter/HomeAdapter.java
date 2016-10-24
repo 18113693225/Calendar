@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 
 import com.lj.apps.calendardemo.model.Home;
+import com.lj.apps.calendardemo.ui.holder.EmptyViewHolder;
 import com.lj.apps.calendardemo.ui.holder.HomeViewHolder;
 
 import java.util.List;
@@ -40,7 +41,11 @@ public class HomeAdapter extends RecyclerView.Adapter<EasyViewHolder> {
     @Override
     public EasyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         EasyViewHolder holder = null;
-        holder = new HomeViewHolder(mContext, parent);
+        if (viewType == 0) {
+            holder = new EmptyViewHolder(mContext, parent);
+        } else {
+            holder = new HomeViewHolder(mContext, parent);
+        }
         return holder;
     }
 
@@ -52,25 +57,35 @@ public class HomeAdapter extends RecyclerView.Adapter<EasyViewHolder> {
         setOnListener(holder);
     }
 
-
     protected void setOnListener(final RecyclerView.ViewHolder holder) {
         if (mOnItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int layoutPosition = holder.getPosition();
-                    Home home = (Home) holder.itemView.getTag();
-                    mOnItemClickListener.onItemClick(holder.itemView, home, layoutPosition);
-                }
-            });
-
+            if (holder.getItemViewType() == 1) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int layoutPosition = holder.getPosition();
+                        Home home = (Home) holder.itemView.getTag();
+                        mOnItemClickListener.onItemClick(holder.itemView, home, layoutPosition);
+                    }
+                });
+            }
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        int type;
+        if (position == 0) {
+            type = 0;
+        } else {
+            type = 1;
+        }
+        return type;
     }
 
     @Override
     public int getItemCount() {
         return mListData.size();
     }
-
 
 }

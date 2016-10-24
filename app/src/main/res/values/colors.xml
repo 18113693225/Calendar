@@ -6,5 +6,6 @@
 
 
     <color name="white">#FFFFFF</color>
+    <color name="bg_line">#E2E2E2</color>
 
 </resources>
