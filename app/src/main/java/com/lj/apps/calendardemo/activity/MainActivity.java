@@ -2,10 +2,10 @@ package com.lj.apps.calendardemo.activity;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.Log;
 import android.view.View;
 
@@ -13,7 +13,6 @@ import com.lj.apps.calendardemo.R;
 import com.lj.apps.calendardemo.Utils.tool.GlideImageLoader;
 import com.lj.apps.calendardemo.model.Home;
 import com.lj.apps.calendardemo.ui.adapter.HomeAdapter;
-import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -48,14 +47,12 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
     }
 
     private void init() {
-
         showRecyclerView();
     }
 
     private void initBanner() {
         images.add(R.mipmap.pic1);
         images.add(R.mipmap.pic2);
-
     }
 
     private void initData() {
@@ -78,6 +75,7 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
     }
 
     private void showRecyclerView() {
+        recyclerViewListener();
         mAdapter = new HomeAdapter(MainActivity.this, homes, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
@@ -87,6 +85,21 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    private void recyclerViewListener() {
+        mRecyclerView.addOnScrollListener(new OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                Log.i("TAG", "newState" + newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Log.i("TAG", "x" + dx + "  " + "y" + dy);
+            }
+        });
+    }
 
     @Override
     public void OnBannerClick(int position) {
