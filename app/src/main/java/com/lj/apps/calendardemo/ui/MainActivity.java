@@ -1,151 +1,108 @@
 package com.lj.apps.calendardemo.ui;
 
 
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.view.MotionEvent;
+import android.view.View;
 
-import com.lj.apps.calendardemo.Utils.SensorInfo;
-import com.lj.apps.calendardemo.widget.Ball;
+import com.lj.apps.calendardemo.R;
+import com.lj.apps.calendardemo.Utils.tool.GlideImageLoader;
+import com.lj.apps.calendardemo.model.Home;
+import com.lj.apps.calendardemo.ui.adapter.HomeAdapter;
+import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerClickListener;
 
 
-public class MainActivity extends BaseActivity implements SensorEventListener {
-    GLSurfaceView mGlSurfaceView;
-    Ball mBall;
-    private float mPreviousY;
-    private float mPreviousX;
-    private SensorManager sensorManager;
-    private Sensor gyroscopeSensor;
-    private static final float NS2S = 1.0f / 1000000000.0f;
-    private float timestamp;
-    private float angle[] = new float[3];
-    private boolean flag = true;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+
+
+public class MainActivity extends BaseActivity implements OnBannerClickListener, PullLoadMoreRecyclerView.PullLoadMoreListener,
+        HomeAdapter.OnItemClickListener {
+    @Bind(R.id.banner)
+    Banner mBanner;
+    @Bind(R.id.oder_rv)
+    PullLoadMoreRecyclerView mRecyclerView;
+    private HomeAdapter mAdapter;
+    private ArrayList<Integer> images = new ArrayList<>();
+    private ArrayList<Home> homes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mGlSurfaceView = new GLSurfaceView(this);
-        mGlSurfaceView.setEGLContextClientVersion(2);
-        mBall = new Ball(this);
-        mGlSurfaceView.setRenderer(mBall);
-        setContentView(mGlSurfaceView);
-        initSensor();
+        setContentView(R.layout.activity_main);
+        initBanner();
+        initData();
+        init();
+        showBanner(images);
     }
 
-    private void initSensor() {
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        if (null != gyroscopeSensor) {
-            sensorManager.registerListener(this, gyroscopeSensor,
-                    SensorManager.SENSOR_DELAY_NORMAL);
-        }
+    private void init() {
+        mRecyclerView.setOnPullLoadMoreListener(this);
+        mRecyclerView.setPullRefreshEnable(true);
+        mRecyclerView.setPushRefreshEnable(true);
+        mRecyclerView.setFooterViewText("loading");
+        mRecyclerView.setFooterViewTextColor(R.color.colorAccent);
+        showRecyclerView();
+    }
 
+    private void initBanner() {
+        images.add(R.mipmap.ic_launcher);
+        images.add(R.mipmap.ic_launcher);
+        images.add(R.mipmap.ic_launcher);
+
+    }
+
+    private void initData() {
+        for (int i = 0; i < 20; i++) {
+            Home home = new Home();
+            home.title = "标题" + i;
+            home.image = images.get(0);
+            homes.add(home);
+        }
+        mRecyclerView.setPullLoadMoreCompleted();
+    }
+
+    private void showBanner(List<Integer> Images) {
+        mBanner.setImageLoader(new GlideImageLoader());
+        mBanner.setImages(Images);
+        mBanner.setBannerAnimation(Transformer.DepthPage);
+        mBanner.setIndicatorGravity(BannerConfig.CENTER);
+        mBanner.setDelayTime(6000);
+        mBanner.setOnBannerClickListener(this);
+        mBanner.start();
+    }
+
+    private void showRecyclerView() {
+        mAdapter = new HomeAdapter(MainActivity.this, homes, this);
+        mRecyclerView.setLinearLayout();
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 
     @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        float y = e.getY();
-        float x = e.getX();
-        switch (e.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                flag = false;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                flag = false;
-                float dy = y - mPreviousY;
-                float dx = x - mPreviousX;
-                mBall.yAngle += dx * 0.3f;
-                mBall.xAngle += dy * 0.3f;
-                break;
-            case MotionEvent.ACTION_UP:
-                flag = true;
-                break;
-            default:
-                break;
-        }
-        mPreviousY = y;
-        mPreviousX = x;
-        return true;
+    public void OnBannerClick(int position) {
+
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (null != mGlSurfaceView) {
-            mGlSurfaceView.onResume();
-        }
-        sensorManager.registerListener(this, gyroscopeSensor,
-                SensorManager.SENSOR_DELAY_GAME);
+    public void onRefresh() {
+        new Thread()
+        homes.clear();
+        initData();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        if (null != mGlSurfaceView) {
-            mGlSurfaceView.onPause();
-        }
-        sensorManager.unregisterListener(this);
+    public void onLoadMore() {
+        initData();
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-            if (timestamp != 0) {
-                final float dT = (event.timestamp - timestamp) * NS2S;
-                angle[0] += event.values[0] * dT;
-                angle[1] += event.values[1] * dT;
-                angle[2] += event.values[2] * dT;
-                float angle_x = (float) Math.toDegrees(angle[0]);
-                float angle_y = (float) Math.toDegrees(angle[1]);
-                float angle_z = (float) Math.toDegrees(angle[2]);
-                if (flag) {
-                    SensorInfo info = new SensorInfo();
-                    info.setSensorX(angle_y);
-                    info.setSensorY(angle_x);
-                    info.setSensorZ(angle_z);
-                    Message msg = new Message();
-                    msg.what = 101;
-                    msg.obj = info;
-                    mHandler.sendMessage(msg);
-                }
-            }
-        }
-        timestamp = event.timestamp;
+    public void onItemClick(View v, Home home, int position) {
 
     }
-
-    Handler mHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            switch (msg.what) {
-                case 101:
-                    SensorInfo info = (SensorInfo) msg.obj;
-                    float y = info.getSensorY();
-                    float x = info.getSensorX();
-                    float dy = y - mPreviousY;
-                    float dx = x - mPreviousX;
-                    mBall.yAngle += dx * 1.0f;
-                    mBall.xAngle += dy * 1.0f;
-                    mPreviousY = y;
-                    mPreviousX = x;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-    };
-
 }
