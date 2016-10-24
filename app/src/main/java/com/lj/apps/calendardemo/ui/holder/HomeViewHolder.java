@@ -16,7 +16,7 @@ public class HomeViewHolder extends EasyViewHolder<Home> {
     Context mContext;
 
     public HomeViewHolder(Context context, ViewGroup parent) {
-        super(context, parent, R.layout.activity_main);
+        super(context, parent, R.layout.list_item_home);
         mContext = context;
         ButterKnife.bind(this, itemView);
     }

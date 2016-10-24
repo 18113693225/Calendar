@@ -2,6 +2,9 @@ package com.lj.apps.calendardemo.ui;
 
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.view.View;
 
 import com.lj.apps.calendardemo.R;
@@ -51,14 +54,13 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
     }
 
     private void initBanner() {
-        images.add(R.mipmap.ic_launcher);
-        images.add(R.mipmap.ic_launcher);
-        images.add(R.mipmap.ic_launcher);
+        images.add(R.mipmap.pic1);
+        images.add(R.mipmap.pic2);
 
     }
 
     private void initData() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             Home home = new Home();
             home.title = "标题" + i;
             home.image = images.get(0);
@@ -91,14 +93,23 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
 
     @Override
     public void onRefresh() {
-        new Thread()
-        homes.clear();
-        initData();
+        new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                homes.clear();
+                initData();
+            }
+        }.sendEmptyMessageDelayed(0, 1000);
     }
 
     @Override
     public void onLoadMore() {
-        initData();
+        new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                initData();
+            }
+        }.sendEmptyMessageDelayed(0, 1000);
     }
 
     @Override
