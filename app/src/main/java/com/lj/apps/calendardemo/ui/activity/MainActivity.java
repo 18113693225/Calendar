@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity implements
             case MotionEvent.ACTION_MOVE:
                 if (!mScaling) {
                     //当图片也就是第一个item完全可见的时候，记录触摸屏幕的位置
-                    if (mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
+                    if (mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() == 1) {
                         mFirstPosition = event.getY();
                     } else {
                         break;
