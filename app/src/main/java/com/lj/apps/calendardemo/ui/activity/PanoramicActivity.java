@@ -1,4 +1,4 @@
-package com.lj.apps.calendardemo.activity;
+package com.lj.apps.calendardemo.ui.activity;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

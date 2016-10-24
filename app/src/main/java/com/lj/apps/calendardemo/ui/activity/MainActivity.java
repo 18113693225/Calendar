@@ -1,4 +1,4 @@
-package com.lj.apps.calendardemo.activity;
+package com.lj.apps.calendardemo.ui.activity;
 
 
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.Log;
 import android.view.View;
 
+import com.lj.apps.calendardemo.Navigator;
 import com.lj.apps.calendardemo.R;
 import com.lj.apps.calendardemo.Utils.tool.GlideImageLoader;
 import com.lj.apps.calendardemo.model.Home;
@@ -109,6 +110,6 @@ public class MainActivity extends BaseActivity implements OnBannerClickListener,
 
     @Override
     public void onItemClick(View v, Home home, int position) {
-        Log.i("TAG", home.title);
+        Navigator.startDetailsActivity(this);
     }
 }
