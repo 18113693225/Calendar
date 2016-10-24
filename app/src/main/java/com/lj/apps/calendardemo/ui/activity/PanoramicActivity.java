@@ -68,7 +68,7 @@ public class PanoramicActivity extends BaseActivity implements SensorEventListen
                 mBall.xAngle += dy * 0.3f;
                 break;
             case MotionEvent.ACTION_UP:
-                flag = true;
+                status();
                 break;
             default:
                 break;
@@ -76,6 +76,15 @@ public class PanoramicActivity extends BaseActivity implements SensorEventListen
         mPreviousY = y;
         mPreviousX = x;
         return true;
+    }
+
+    private void status() {
+        new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                flag = true;
+            }
+        }.sendEmptyMessageDelayed(101, 1000);
     }
 
     @Override
@@ -87,6 +96,7 @@ public class PanoramicActivity extends BaseActivity implements SensorEventListen
         sensorManager.registerListener(this, gyroscopeSensor,
                 SensorManager.SENSOR_DELAY_GAME);
     }
+
 
     @Override
     protected void onPause() {
