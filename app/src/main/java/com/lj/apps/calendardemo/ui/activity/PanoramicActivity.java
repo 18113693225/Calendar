@@ -68,7 +68,7 @@ public class PanoramicActivity extends BaseActivity implements SensorEventListen
                 mBall.xAngle += dy * 0.3f;
                 break;
             case MotionEvent.ACTION_UP:
-                status();
+                flag = true;
                 break;
             default:
                 break;
@@ -78,14 +78,6 @@ public class PanoramicActivity extends BaseActivity implements SensorEventListen
         return true;
     }
 
-    private void status() {
-        new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                flag = true;
-            }
-        }.sendEmptyMessageDelayed(101, 1000);
-    }
 
     @Override
     protected void onResume() {

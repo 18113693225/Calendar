@@ -63,16 +63,14 @@ public class HomeAdapter extends RecyclerView.Adapter<EasyViewHolder> {
 
     protected void setOnListener(final RecyclerView.ViewHolder holder) {
         if (mOnItemClickListener != null) {
-            if (holder.getItemViewType() == 1) {
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int layoutPosition = holder.getPosition();
-                        Home home = (Home) holder.itemView.getTag();
-                        mOnItemClickListener.onItemClick(holder.itemView, home, layoutPosition);
-                    }
-                });
-            }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int layoutPosition = holder.getPosition();
+                    Home home = (Home) holder.itemView.getTag();
+                    mOnItemClickListener.onItemClick(holder.itemView, home, layoutPosition);
+                }
+            });
         }
     }
 

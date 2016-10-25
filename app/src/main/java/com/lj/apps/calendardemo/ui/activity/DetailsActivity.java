@@ -39,7 +39,7 @@ public class DetailsActivity extends BaseActivity {
         bottomShow();
         Intent intent = getIntent();
         Integer url = intent.getIntExtra("img", 0);
-        Glide.with(this).load(url).into(top);
+        top.setImageResource(url);
         Glide.with(this).load(url).bitmapTransform(new BlurTransformation(this, 50)).into(blur);
     }
 

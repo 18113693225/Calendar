@@ -32,7 +32,7 @@ public class HomeViewHolder extends EasyViewHolder<Home> {
 
     @Override
     public void bindTo(int position, Home value) {
-        Glide.with(mContext).load(value.image).into(img);
+        img.setImageResource(value.image);
         name.setText(value.title);
     }
 }

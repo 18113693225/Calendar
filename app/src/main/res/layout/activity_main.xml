@@ -12,7 +12,7 @@
         android:layout_height="200dp"
         android:background="@android:color/black"
         android:scaleType="centerCrop"
-        android:src="@mipmap/pic2" />
+        android:src="@mipmap/pic1" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"

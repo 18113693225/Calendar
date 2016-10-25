@@ -33,10 +33,8 @@ public class MainActivity extends BaseActivity implements
     @Bind(R.id.rv)
     RecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
-    Integer[] images = {R.mipmap.pic1, R.mipmap.pic2};
+    Integer[] images = {R.mipmap.pic1, R.mipmap.pic2, R.mipmap.pic3, R.mipmap.pic4, R.mipmap.pic5, R.mipmap.pic6, R.mipmap.pic7, R.mipmap.pic8};
     private ArrayList<Home> homes = new ArrayList<>();
-
-
     private LinearLayoutManager mLinearLayoutManager;
 
 
@@ -52,10 +50,10 @@ public class MainActivity extends BaseActivity implements
     private void initData() {
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) img.getLayoutParams();
         Log.i("TAG", "高度 " + lp.width + "  宽度" + lp.height);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 8; i++) {
             Home home = new Home();
-            home.title = "标题" + i;
-            home.image = images[0];
+            home.title = "demo" + i;
+            home.image = images[i];
             homes.add(home);
         }
     }
@@ -97,9 +95,13 @@ public class MainActivity extends BaseActivity implements
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onItemClick(View v, Home home, int position) {
-        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-        intent.putExtra("img", home.image);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, v, "shareName").toBundle());
+        if (position == 0) {
+            Navigator.startPanoramicActivity(this);
+        } else {
+            Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+            intent.putExtra("img", home.image);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, v, "shareName").toBundle());
+        }
     }
 
 }
