@@ -9,9 +9,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.lj.apps.demo.Navigator;
 import com.lj.apps.demo.R;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 
@@ -49,4 +51,14 @@ public class DetailsActivity extends BaseActivity {
         }, 500);
     }
 
+    @OnClick({R.id.map})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.map:
+                Navigator.startMapActivity(this);
+                break;
+            default:
+                break;
+        }
+    }
 }
