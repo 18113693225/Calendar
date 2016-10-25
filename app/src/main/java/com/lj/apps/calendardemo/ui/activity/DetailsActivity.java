@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lj.apps.calendardemo.R;
 
 import butterknife.Bind;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 
 /**
@@ -21,20 +24,23 @@ public class DetailsActivity extends BaseActivity {
     @Bind(R.id.image_top)
     ImageView top;
     @Bind(R.id.bottom)
-    LinearLayout bottom;
+    FrameLayout bottom;
+    @Bind(R.id.blur)
+    ImageView blur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         initView();
-
     }
 
     private void initView() {
-        Intent intent = getIntent();
         bottomShow();
-        top.setImageResource(intent.getIntExtra("img", 0));
+        Intent intent = getIntent();
+        Integer url = intent.getIntExtra("img", 0);
+        Glide.with(this).load(url).into(top);
+        Glide.with(this).load(url).bitmapTransform(new BlurTransformation(this, 50)).into(blur);
     }
 
     private void bottomShow() {
