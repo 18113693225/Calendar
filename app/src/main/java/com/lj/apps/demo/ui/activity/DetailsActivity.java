@@ -1,4 +1,4 @@
-package com.lj.apps.calendardemo.ui.activity;
+package com.lj.apps.demo.ui.activity;
 
 
 import android.content.Intent;
@@ -7,11 +7,9 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.lj.apps.calendardemo.R;
+import com.lj.apps.demo.R;
 
 import butterknife.Bind;
 import jp.wasabeef.glide.transformations.BlurTransformation;

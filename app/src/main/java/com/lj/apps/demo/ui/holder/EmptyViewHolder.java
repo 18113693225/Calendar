@@ -1,10 +1,10 @@
-package com.lj.apps.calendardemo.ui.holder;
+package com.lj.apps.demo.ui.holder;
 
 import android.content.Context;
 import android.view.ViewGroup;
 
-import com.lj.apps.calendardemo.R;
-import com.lj.apps.calendardemo.model.Home;
+import com.lj.apps.demo.R;
+import com.lj.apps.demo.model.Home;
 
 import butterknife.ButterKnife;
 import support.ui.adapters.EasyViewHolder;

@@ -1,4 +1,4 @@
-package com.lj.apps.calendardemo.widget;
+package com.lj.apps.demo.widget;
 
 import static android.opengl.GLES20.*;
 import static android.opengl.Matrix.*;
@@ -16,8 +16,8 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.Matrix;
 
-import com.lj.apps.calendardemo.R;
-import com.lj.apps.calendardemo.Utils.TimGL2Utils;
+import com.lj.apps.demo.R;
+import com.lj.apps.demo.Utils.TimGL2Utils;
 
 
 /**

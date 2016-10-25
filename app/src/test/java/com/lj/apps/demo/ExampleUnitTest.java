@@ -1,4 +1,4 @@
-package com.lj.apps.calendardemo;
+package com.lj.apps.demo;
 
 import org.junit.Test;
 

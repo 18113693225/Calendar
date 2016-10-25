@@ -1,4 +1,4 @@
-package com.lj.apps.calendardemo.model;
+package com.lj.apps.demo.model;
 
 import android.os.Parcel;
 

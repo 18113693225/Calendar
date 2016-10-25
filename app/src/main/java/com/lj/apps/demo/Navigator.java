@@ -1,14 +1,13 @@
-package com.lj.apps.calendardemo;
+package com.lj.apps.demo;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 
 
-import com.lj.apps.calendardemo.ui.activity.DetailsActivity;
-import com.lj.apps.calendardemo.ui.activity.MainActivity;
-import com.lj.apps.calendardemo.ui.activity.PanoramicActivity;
+import com.lj.apps.demo.ui.activity.DetailsActivity;
+import com.lj.apps.demo.ui.activity.MapActivity;
+import com.lj.apps.demo.ui.activity.PanoramicActivity;
 
 /**
  * Created by Administrator on 2016/10/24.
@@ -22,11 +21,20 @@ public final class Navigator {
         Intent intent = new Intent(activity, DetailsActivity.class);
         ActivityCompat.startActivity(activity, intent, null);
     }
+
     /**
      * 跳转到全景
      */
     public static void startPanoramicActivity(Activity activity) {
         Intent intent = new Intent(activity, PanoramicActivity.class);
+        ActivityCompat.startActivity(activity, intent, null);
+    }
+
+    /**
+     * 跳转到地图
+     */
+    public static void startMapActivity(Activity activity) {
+        Intent intent = new Intent(activity, MapActivity.class);
         ActivityCompat.startActivity(activity, intent, null);
     }
 }

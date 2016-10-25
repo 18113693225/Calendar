@@ -1,24 +1,21 @@
-package com.lj.apps.calendardemo.ui.activity;
+package com.lj.apps.demo.ui.activity;
 
 
-import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.lj.apps.calendardemo.Navigator;
-import com.lj.apps.calendardemo.R;
-import com.lj.apps.calendardemo.model.Home;
-import com.lj.apps.calendardemo.ui.adapter.HomeAdapter;
+import com.lj.apps.demo.Navigator;
+import com.lj.apps.demo.R;
+import com.lj.apps.demo.model.Home;
+import com.lj.apps.demo.ui.adapter.HomeAdapter;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -93,7 +90,7 @@ public class MainActivity extends BaseActivity implements
         });
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+
     @Override
     public void onItemClick(View v, Home home, int position) {
         if (position == 0) {
@@ -101,7 +98,11 @@ public class MainActivity extends BaseActivity implements
         } else {
             Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
             intent.putExtra("img", home.image);
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, v, "shareName").toBundle());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, v, "shareName").toBundle());
+            } else {
+                startActivity(intent);
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.lj.apps.calendardemo;
+package com.lj.apps.demo;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,10 +1,10 @@
-package com.lj.apps.calendardemo.Utils.tool;
+package com.lj.apps.demo.Utils.tool;
 
 import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.lj.apps.calendardemo.R;
+import com.lj.apps.demo.R;
 import com.youth.banner.loader.ImageLoader;
 
 /**

@@ -1,4 +1,4 @@
-package com.lj.apps.calendardemo.ui.activity;
+package com.lj.apps.demo.ui.activity;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -10,8 +10,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.MotionEvent;
 
-import com.lj.apps.calendardemo.Utils.SensorInfo;
-import com.lj.apps.calendardemo.widget.Ball;
+import com.lj.apps.demo.Utils.SensorInfo;
+import com.lj.apps.demo.widget.Ball;
 
 /**
  * Created by Administrator on 2016/10/24.

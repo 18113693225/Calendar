@@ -1,6 +1,5 @@
-package com.lj.apps.calendardemo.ui.adapter;
+package com.lj.apps.demo.ui.adapter;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
@@ -8,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.lj.apps.calendardemo.model.Home;
-import com.lj.apps.calendardemo.ui.holder.EmptyViewHolder;
-import com.lj.apps.calendardemo.ui.holder.HomeViewHolder;
+import com.lj.apps.demo.model.Home;
+import com.lj.apps.demo.ui.holder.EmptyViewHolder;
+import com.lj.apps.demo.ui.holder.HomeViewHolder;
 
 import java.util.List;
 
@@ -51,13 +50,15 @@ public class HomeAdapter extends RecyclerView.Adapter<EasyViewHolder> {
         return holder;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+
     @Override
     public void onBindViewHolder(EasyViewHolder holder, int position) {
         Home home = mListData.get(position);
         holder.bindTo(position, home);
         holder.itemView.setTag(home);
-        holder.itemView.setTransitionName("shareName");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.itemView.setTransitionName("shareName");
+        }
         setOnListener(holder);
     }
 
@@ -71,6 +72,7 @@ public class HomeAdapter extends RecyclerView.Adapter<EasyViewHolder> {
                     mOnItemClickListener.onItemClick(holder.itemView, home, layoutPosition);
                 }
             });
+
         }
     }
 
