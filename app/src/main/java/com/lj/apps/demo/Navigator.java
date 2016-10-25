@@ -33,8 +33,9 @@ public final class Navigator {
     /**
      * 跳转到地图
      */
-    public static void startMapActivity(Activity activity) {
+    public static void startMapActivity(Activity activity, String str) {
         Intent intent = new Intent(activity, MapActivity.class);
+        intent.putExtra("address", str);
         ActivityCompat.startActivity(activity, intent, null);
     }
 }

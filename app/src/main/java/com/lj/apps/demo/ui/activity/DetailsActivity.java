@@ -55,7 +55,7 @@ public class DetailsActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.map:
-                Navigator.startMapActivity(this);
+                Navigator.startMapActivity(this, "温江区天香路2段88号");
                 break;
             default:
                 break;

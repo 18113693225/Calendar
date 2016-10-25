@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/custom_toolbar" />
+
     <com.baidu.mapapi.map.MapView
         android:id="@+id/mapView"
         android:layout_width="fill_parent"
