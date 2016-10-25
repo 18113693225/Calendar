@@ -1,6 +1,10 @@
 package com.lj.apps.calendardemo.ui.activity;
 
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
@@ -74,6 +78,11 @@ public class MainActivity extends BaseActivity implements
             private Double totalDy = 0.0;
 
             @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 totalDy -= dy;
@@ -85,9 +94,12 @@ public class MainActivity extends BaseActivity implements
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onItemClick(View v, Home home, int position) {
-        Navigator.startDetailsActivity(this);
+        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+        intent.putExtra("img", home.image);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, v, "shareName").toBundle());
     }
 
 }

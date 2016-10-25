@@ -1,11 +1,13 @@
 package com.lj.apps.calendardemo;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 
 
 import com.lj.apps.calendardemo.ui.activity.DetailsActivity;
+import com.lj.apps.calendardemo.ui.activity.MainActivity;
 import com.lj.apps.calendardemo.ui.activity.PanoramicActivity;
 
 /**

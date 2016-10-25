@@ -1,6 +1,8 @@
 package com.lj.apps.calendardemo.ui.adapter;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,11 +51,13 @@ public class HomeAdapter extends RecyclerView.Adapter<EasyViewHolder> {
         return holder;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(EasyViewHolder holder, int position) {
         Home home = mListData.get(position);
         holder.bindTo(position, home);
         holder.itemView.setTag(home);
+        holder.itemView.setTransitionName("shareName");
         setOnListener(holder);
     }
 
