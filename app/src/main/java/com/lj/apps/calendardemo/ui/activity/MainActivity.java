@@ -56,6 +56,7 @@ public class MainActivity extends BaseActivity implements
             home.image = images[i];
             homes.add(home);
         }
+        img.setImageResource(homes.get(0).image);
     }
 
 

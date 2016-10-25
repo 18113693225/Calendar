@@ -37,7 +37,7 @@ public class PanoramicActivity extends BaseActivity implements SensorEventListen
         mBall = new Ball(this);
         mGlSurfaceView.setRenderer(mBall);
         setContentView(mGlSurfaceView);
-        initSensor();
+        //  initSensor();
     }
 
 
@@ -85,8 +85,6 @@ public class PanoramicActivity extends BaseActivity implements SensorEventListen
         if (null != mGlSurfaceView) {
             mGlSurfaceView.onResume();
         }
-        sensorManager.registerListener(this, gyroscopeSensor,
-                SensorManager.SENSOR_DELAY_GAME);
     }
 
 
@@ -96,7 +94,7 @@ public class PanoramicActivity extends BaseActivity implements SensorEventListen
         if (null != mGlSurfaceView) {
             mGlSurfaceView.onPause();
         }
-        sensorManager.unregisterListener(this);
+        //    sensorManager.unregisterListener(this);
     }
 
     @Override
