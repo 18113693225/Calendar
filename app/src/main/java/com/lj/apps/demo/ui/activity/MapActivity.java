@@ -12,14 +12,13 @@ import butterknife.Bind;
  * Created by Administrator on 2016/10/25.
  */
 public class MapActivity extends BaseActivity {
-
-    @Bind(R.id.mapView)
     MapView mMapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        mMapView = (MapView) findViewById(R.id.mapView);
     }
 
     @Override
