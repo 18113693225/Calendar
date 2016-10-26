@@ -1,4 +1,4 @@
-package com.lj.apps.demo.widget;
+package com.lj.apps.demo.ui.widget;
 
 import static android.opengl.GLES20.*;
 import static android.opengl.Matrix.*;

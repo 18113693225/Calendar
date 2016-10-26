@@ -1,4 +1,4 @@
-package com.lj.apps.demo.ui;
+package com.lj.apps.demo.ui.app;
 
 import android.app.Application;
 
