@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -28,6 +29,8 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.model.inner.GeoPoint;
 import com.lj.apps.demo.R;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 
@@ -68,6 +71,7 @@ public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickL
         }
         baiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngZoom(new LatLng(30.676716, 103.99274), 16));
         initMarker();
+        initAllMarker();
     }
 
     private void initMarker() {
@@ -76,6 +80,35 @@ public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickL
                 .zIndex(9);
         ooA.animateType(MarkerOptions.MarkerAnimateType.drop);
         baiduMap.addOverlay(ooA);
+    }
+
+    private void initAllMarker() {
+        ArrayList<OverlayOptions> marks = new ArrayList<>();
+        LatLng point1 = new LatLng(30.664913, 103.964425);
+        LatLng point2 = new LatLng(30.659321, 103.95652);
+        LatLng point3 = new LatLng(30.690382, 104.008838);
+        LatLng point4 = new LatLng(30.690382, 104.008838);
+        LatLng point5 = new LatLng(30.708268, 103.955802);
+        LatLng point6 = new LatLng(30.566329, 103.84743);
+        OverlayOptions oo1 = new MarkerOptions().position(point1).icon(blue).title(address)
+                .zIndex(9);
+        OverlayOptions oo2 = new MarkerOptions().position(point2).icon(blue).title(address)
+                .zIndex(9);
+        OverlayOptions oo3 = new MarkerOptions().position(point3).icon(blue).title(address)
+                .zIndex(9);
+        OverlayOptions oo4 = new MarkerOptions().position(point4).icon(blue).title(address)
+                .zIndex(9);
+        OverlayOptions oo5 = new MarkerOptions().position(point5).icon(blue).title(address)
+                .zIndex(9);
+        OverlayOptions oo6 = new MarkerOptions().position(point6).icon(blue).title(address)
+                .zIndex(9);
+        marks.add(oo1);
+        marks.add(oo2);
+        marks.add(oo3);
+        marks.add(oo4);
+        marks.add(oo5);
+        marks.add(oo6);
+        baiduMap.addOverlays(marks);
     }
 
     private void setUpToolbar() {
@@ -125,11 +158,14 @@ public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickL
     private void showWindow(Marker marker) {
         Button button = new Button(getApplicationContext());
         button.setBackgroundResource(R.drawable.popup);
-        button.setText("测试数据");
-        button.setBackgroundColor(0x0000f);
-        button.setWidth(300);
+        button.setText("更改图标");
         LatLng ll = marker.getPosition();
         mInfoWindow = new InfoWindow(button, ll, -47);
         baiduMap.showInfoWindow(mInfoWindow);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                baiduMap.hideInfoWindow();
+            }
+        });
     }
 }
