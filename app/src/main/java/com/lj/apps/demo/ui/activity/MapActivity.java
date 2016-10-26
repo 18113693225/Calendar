@@ -8,28 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.model.LatLngBounds;
-import com.baidu.mapapi.model.inner.GeoPoint;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.lj.apps.demo.R;
 
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -43,11 +36,16 @@ public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickL
     Toolbar toolbar;
     @Bind(R.id.toolbar_center_tv)
     TextView toolbar_center_tv;
+    @Bind(R.id.map_address_name)
+    TextView name;
+    @Bind(R.id.map_address_distance)
+    TextView distance;
     private String address;
     private MapView mMapView;
     private BaiduMap baiduMap;
     private InfoWindow mInfoWindow;
 
+    DecimalFormat df = new DecimalFormat("######0.00");
     BitmapDescriptor blue = BitmapDescriptorFactory
             .fromResource(R.drawable.ic_map_blue);
     BitmapDescriptor red = BitmapDescriptorFactory
@@ -109,11 +107,14 @@ public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickL
         marks.add(oo5);
         marks.add(oo6);
         baiduMap.addOverlays(marks);
+        double dd = DistanceUtil.getDistance(point1, point2);
+        distance.setText(df.format(dd) + "Km");
     }
 
     private void setUpToolbar() {
         toolbar.setTitle("");
         toolbar_center_tv.setText(address);
+        name.setText(address);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_left);
     }
@@ -158,7 +159,7 @@ public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickL
     private void showWindow(Marker marker) {
         Button button = new Button(getApplicationContext());
         button.setBackgroundResource(R.drawable.popup);
-        button.setText("更改图标");
+        button.setText(marker.getTitle());
         LatLng ll = marker.getPosition();
         mInfoWindow = new InfoWindow(button, ll, -47);
         baiduMap.showInfoWindow(mInfoWindow);
