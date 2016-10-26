@@ -143,9 +143,7 @@ public class SearchMapActivity extends BaseActivity implements BaiduMap.OnMarker
     private void getPermission() {
         RxPermissions.getInstance(this)
                 .request(Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE
-                        , Manifest.permission.CALL_PHONE
-                )
+                        Manifest.permission.ACCESS_FINE_LOCATION)
                 .subscribe(new Subscriber<Boolean>() {
                     @Override
                     public void onCompleted() {
