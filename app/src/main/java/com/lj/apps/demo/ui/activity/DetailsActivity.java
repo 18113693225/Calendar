@@ -61,4 +61,5 @@ public class DetailsActivity extends BaseActivity {
                 break;
         }
     }
+
 }

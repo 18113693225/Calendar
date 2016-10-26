@@ -21,11 +21,11 @@ public class PositionService {
         locationClient.registerLocationListener(listener);
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        option.setCoorType("bd09ll");
+        option.setScanSpan(5000);
         option.setIsNeedAddress(true);
         option.setOpenGps(true);
-        option.setCoorType("bd09ll");
-        option.setTimeOut(5000);
-        option.setScanSpan(5000);
+        option.setTimeOut(10000);
         locationClient.setLocOption(option);
     }
 
