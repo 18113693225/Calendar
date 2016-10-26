@@ -11,7 +11,7 @@ import android.os.Message;
 import android.view.MotionEvent;
 
 import com.lj.apps.demo.Utils.SensorInfo;
-import com.lj.apps.demo.widget.Ball;
+import com.lj.apps.demo.ui.widget.Ball;
 
 /**
  * Created by Administrator on 2016/10/24.

@@ -1,14 +1,16 @@
 package com.lj.apps.demo.ui.activity;
 
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 
 import com.baidu.location.BDLocation;
@@ -22,26 +24,42 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
+import com.baidu.mapapi.search.sug.SuggestionResult;
+import com.baidu.mapapi.search.sug.SuggestionSearch;
+import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.lj.apps.demo.R;
 import com.lj.apps.demo.Utils.service.PositionService;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.lj.apps.demo.ui.widget.SearchRecyclerView;
+import com.smartydroid.android.starter.kit.utilities.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import rx.Subscriber;
-import support.ui.utilities.ToastUtils;
+import butterknife.Bind;
+import butterknife.OnClick;
+
 
 /**
  * Created by Administrator on 2016/10/26.
  */
-public class SearchMapActivity extends BaseActivity implements BaiduMap.OnMarkerClickListener, BDLocationListener {
-
+public class SearchMapActivity extends BaseActivity implements BaiduMap.OnMarkerClickListener, BDLocationListener,
+        OnGetSuggestionResultListener, TextWatcher, SearchRecyclerView.OnItemClickListener {
 
     private Context mContext;
     private MapView mMapView;
     private BaiduMap baiduMap;
+    private SuggestionSearch mSuggestionSearch;
     private PositionService mPositionService;
     private String address = "温江区天香卢2段33号";
+    private String city = "成都";
+
+    @Bind(R.id.edit_address)
+    EditText edit;
+
+    @Bind(R.id.search_rv)
+    SearchRecyclerView rv;
+
 
     BitmapDescriptor blue = BitmapDescriptorFactory
             .fromResource(R.drawable.ic_map_blue);
@@ -57,14 +75,19 @@ public class SearchMapActivity extends BaseActivity implements BaiduMap.OnMarker
         init();
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private void init() {
         mContext = SearchMapActivity.this;
         if (null == baiduMap) {
             baiduMap = mMapView.getMap();
             baiduMap.setOnMarkerClickListener(this);
         }
-        getPermission();
+        if (null == mPositionService) {
+            mPositionService = new PositionService(SearchMapActivity.this, SearchMapActivity.this);
+            mPositionService.start();
+        }
+        edit.addTextChangedListener(this);
+        mSuggestionSearch = SuggestionSearch.newInstance();
+        mSuggestionSearch.setOnGetSuggestionResultListener(this);
         initAllMarker();
     }
 
@@ -109,6 +132,7 @@ public class SearchMapActivity extends BaseActivity implements BaiduMap.OnMarker
         mMapView.onDestroy();
         mMapView = null;
         mPositionService = null;
+        mSuggestionSearch.destroy();
     }
 
     @Override
@@ -135,38 +159,55 @@ public class SearchMapActivity extends BaseActivity implements BaiduMap.OnMarker
         if (bdLocation.hasAddr()) {
             mPositionService.stop();
             mPositionService = null;
+            city = bdLocation.getCity();
             baiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLngZoom(new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude()), 14));
             initMarker(new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude()));
         }
     }
 
-    private void getPermission() {
-        RxPermissions.getInstance(this)
-                .request(Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION)
-                .subscribe(new Subscriber<Boolean>() {
-                    @Override
-                    public void onCompleted() {
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-                        if (aBoolean) {
-                            if (null == mPositionService) {
-                                mPositionService = new PositionService(SearchMapActivity.this, SearchMapActivity.this);
-                                mPositionService.start();
-                            }
-                        } else {
-                            ToastUtils.toast("亲，不打开权限的话不能准确定位到你的位置哟");
-                        }
-                    }
-                });
     }
 
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        rv.setVisibility(View.VISIBLE);
+        String text = s.toString();
+        mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
+                .keyword(text)
+                .city(city));
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    @Override
+    public void onGetSuggestionResult(SuggestionResult suggestionResult) {
+        List<SuggestionResult.SuggestionInfo> lists = suggestionResult.getAllSuggestions();
+        if (null != lists) {
+            rv.setData(lists, this);
+        }
+    }
+
+    @OnClick({R.id.cancel_bt})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.cancel_bt:
+                finish();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onItemClick(View v, SuggestionResult.SuggestionInfo info, int position) {
+        rv.setVisibility(View.GONE);
+        hideSoftInputMethod();
+        baiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLngZoom(info.pt, 14));
+        initMarker(info.pt);
+    }
 }
