@@ -167,7 +167,7 @@ public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickL
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 baiduMap.hideInfoWindow();
-
+                Navigator.startTitleActivity(MapActivity.this);
             }
         });
     }

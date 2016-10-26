@@ -9,6 +9,7 @@ import com.lj.apps.demo.ui.activity.DetailsActivity;
 import com.lj.apps.demo.ui.activity.MapActivity;
 import com.lj.apps.demo.ui.activity.PanoramicActivity;
 import com.lj.apps.demo.ui.activity.SearchMapActivity;
+import com.lj.apps.demo.ui.activity.TitleActivity;
 
 /**
  * Created by Administrator on 2016/10/24.
@@ -45,6 +46,14 @@ public final class Navigator {
      */
     public static void startSearchMapActivity(Activity activity) {
         Intent intent = new Intent(activity, SearchMapActivity.class);
+        ActivityCompat.startActivity(activity, intent, null);
+    }
+
+    /**
+     * 跳转到title
+     */
+    public static void startTitleActivity(Activity activity) {
+        Intent intent = new Intent(activity, TitleActivity.class);
         ActivityCompat.startActivity(activity, intent, null);
     }
 }

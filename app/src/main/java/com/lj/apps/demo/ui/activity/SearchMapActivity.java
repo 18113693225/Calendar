@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 
@@ -18,6 +19,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
@@ -28,6 +30,7 @@ import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
+import com.lj.apps.demo.Navigator;
 import com.lj.apps.demo.R;
 import com.lj.apps.demo.Utils.service.PositionService;
 import com.lj.apps.demo.ui.widget.SearchRecyclerView;
@@ -54,9 +57,9 @@ public class SearchMapActivity extends BaseActivity implements BaiduMap.OnMarker
     private String address = "温江区天香卢2段33号";
     private String city = "成都";
 
+    private InfoWindow mInfoWindow;
     @Bind(R.id.edit_address)
     EditText edit;
-
     @Bind(R.id.search_rv)
     SearchRecyclerView rv;
 
@@ -149,7 +152,23 @@ public class SearchMapActivity extends BaseActivity implements BaiduMap.OnMarker
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        return false;
+        showWindow(marker);
+        return true;
+    }
+
+    private void showWindow(Marker marker) {
+        Button button = new Button(getApplicationContext());
+        button.setBackgroundResource(R.drawable.popup);
+        button.setText(marker.getTitle());
+        LatLng ll = marker.getPosition();
+        mInfoWindow = new InfoWindow(button, ll, -47);
+        baiduMap.showInfoWindow(mInfoWindow);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                baiduMap.hideInfoWindow();
+                Navigator.startTitleActivity(SearchMapActivity.this);
+            }
+        });
     }
 
     @Override

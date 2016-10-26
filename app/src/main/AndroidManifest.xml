@@ -64,6 +64,11 @@
             android:name="com.lj.apps.demo.ui.activity.SearchMapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <!--title-->
+        <activity
+            android:name="com.lj.apps.demo.ui.activity.TitleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
