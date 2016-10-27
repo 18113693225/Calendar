@@ -1,10 +1,8 @@
 package com.lj.apps.demo.ui.activity;
 
 
-import android.annotation.TargetApi;
 import android.content.Context;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +18,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
@@ -47,7 +46,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2016/10/26.
  */
 public class SearchMapActivity extends BaseActivity implements BaiduMap.OnMarkerClickListener, BDLocationListener,
-        OnGetSuggestionResultListener, TextWatcher, SearchRecyclerView.OnItemClickListener {
+        OnGetSuggestionResultListener, TextWatcher, SearchRecyclerView.OnItemClickListener, BaiduMap.OnMapClickListener {
 
     private Context mContext;
     private MapView mMapView;
@@ -82,6 +81,7 @@ public class SearchMapActivity extends BaseActivity implements BaiduMap.OnMarker
         mContext = SearchMapActivity.this;
         if (null == baiduMap) {
             baiduMap = mMapView.getMap();
+            baiduMap.setOnMapClickListener(this);
             baiduMap.setOnMarkerClickListener(this);
         }
         if (null == mPositionService) {
@@ -232,5 +232,15 @@ public class SearchMapActivity extends BaseActivity implements BaiduMap.OnMarker
         hideSoftInputMethod();
         baiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLngZoom(info.pt, 14));
         initMarker(info.pt);
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        baiduMap.hideInfoWindow();
+    }
+
+    @Override
+    public boolean onMapPoiClick(MapPoi mapPoi) {
+        return false;
     }
 }

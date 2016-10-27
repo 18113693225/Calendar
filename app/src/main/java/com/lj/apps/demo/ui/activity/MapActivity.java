@@ -12,6 +12,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
@@ -31,7 +32,7 @@ import butterknife.Bind;
 /**
  * Created by Administrator on 2016/10/25.
  */
-public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickListener {
+public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickListener, BaiduMap.OnMapClickListener {
 
     @Bind(R.id.toolBar)
     Toolbar toolbar;
@@ -66,6 +67,7 @@ public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickL
         mMapView = (MapView) findViewById(R.id.mapView);
         if (null == baiduMap) {
             baiduMap = mMapView.getMap();
+            baiduMap.setOnMapClickListener(this);
             baiduMap.setOnMarkerClickListener(this);
         }
         baiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngZoom(new LatLng(30.676716, 103.99274), 14));
@@ -173,5 +175,15 @@ public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickL
             });
         }
 
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        baiduMap.hideInfoWindow();
+    }
+
+    @Override
+    public boolean onMapPoiClick(MapPoi mapPoi) {
+        return false;
     }
 }
