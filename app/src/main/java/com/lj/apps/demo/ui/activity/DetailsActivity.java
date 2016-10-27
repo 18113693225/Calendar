@@ -32,6 +32,8 @@ public class DetailsActivity extends BaseActivity {
     ImageView blur;
     @Bind(R.id.music_bt)
     ImageView bt;
+    @Bind(R.id.music)
+    ImageView music;
     private boolean isPlay = true;
 
     @Override
@@ -54,7 +56,7 @@ public class DetailsActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 bottom.setVisibility(View.VISIBLE);
-                scaleImpl();
+                scaleImp();
             }
         }, 500);
     }
@@ -64,6 +66,7 @@ public class DetailsActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.map:
                 stopMusic();
+                top.clearAnimation();
                 Navigator.startMapActivity(this, "温江区天香路2段88号");
                 break;
             case R.id.music_bt:
@@ -81,26 +84,35 @@ public class DetailsActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         stopMusic();
+        top.clearAnimation();
         super.onDestroy();
     }
 
     private void startMusic() {
         isPlay = false;
         bt.setImageResource(R.mipmap.ic_stop);
+        rotateImp();
         startService(new Intent(DetailsActivity.this,
                 MusicService.class));
     }
 
     public void stopMusic() {
         isPlay = true;
+        music.clearAnimation();
         bt.setImageResource(R.mipmap.ic_start);
         stopService(new Intent(DetailsActivity.this,
                 MusicService.class));
     }
 
-    public void scaleImpl() {
+    public void scaleImp() {
         Animation animation = AnimationUtils.loadAnimation(this,
                 R.anim.scale_demo);
         top.startAnimation(animation);
+    }
+
+    public void rotateImp() {
+        Animation animation = AnimationUtils.loadAnimation(this,
+                R.anim.rotate_demo);
+        music.startAnimation(animation);
     }
 }
