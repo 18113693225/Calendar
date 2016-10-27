@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -28,6 +30,8 @@ public class DetailsActivity extends BaseActivity {
     FrameLayout bottom;
     @Bind(R.id.blur)
     ImageView blur;
+    @Bind(R.id.music_bt)
+    ImageView bt;
     private boolean isPlay = true;
 
     @Override
@@ -50,6 +54,7 @@ public class DetailsActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 bottom.setVisibility(View.VISIBLE);
+                scaleImpl();
             }
         }, 500);
     }
@@ -81,14 +86,21 @@ public class DetailsActivity extends BaseActivity {
 
     private void startMusic() {
         isPlay = false;
+        bt.setImageResource(R.mipmap.ic_stop);
         startService(new Intent(DetailsActivity.this,
                 MusicService.class));
     }
 
     public void stopMusic() {
         isPlay = true;
+        bt.setImageResource(R.mipmap.ic_start);
         stopService(new Intent(DetailsActivity.this,
                 MusicService.class));
     }
 
+    public void scaleImpl() {
+        Animation animation = AnimationUtils.loadAnimation(this,
+                R.anim.scale_demo);
+        top.startAnimation(animation);
+    }
 }
