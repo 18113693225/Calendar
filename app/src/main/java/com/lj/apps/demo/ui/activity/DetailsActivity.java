@@ -61,7 +61,7 @@ public class DetailsActivity extends BaseActivity {
         }, 500);
     }
 
-    @OnClick({R.id.map, R.id.music_bt})
+    @OnClick({R.id.map, R.id.music})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.map:
@@ -69,7 +69,7 @@ public class DetailsActivity extends BaseActivity {
                 top.clearAnimation();
                 Navigator.startMapActivity(this, "温江区天香路2段88号");
                 break;
-            case R.id.music_bt:
+            case R.id.music:
                 if (isPlay) {
                     startMusic();
                 } else {
@@ -90,7 +90,7 @@ public class DetailsActivity extends BaseActivity {
 
     private void startMusic() {
         isPlay = false;
-        bt.setImageResource(R.mipmap.ic_stop);
+        bt.setImageResource(R.mipmap.ic_stop1);
         rotateImp();
         startService(new Intent(DetailsActivity.this,
                 MusicService.class));
@@ -99,7 +99,7 @@ public class DetailsActivity extends BaseActivity {
     public void stopMusic() {
         isPlay = true;
         music.clearAnimation();
-        bt.setImageResource(R.mipmap.ic_start);
+        bt.setImageResource(R.mipmap.ic_stop);
         stopService(new Intent(DetailsActivity.this,
                 MusicService.class));
     }

@@ -56,10 +56,10 @@
 
                     <ImageView
                         android:id="@+id/music_bt"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_stop" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop" />
 
                     <ImageView
                         android:id="@+id/music"
