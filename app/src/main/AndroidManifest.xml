@@ -24,6 +24,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme.NoActionBar">
+
+        <!--音乐播放服务-->
+        <service android:name="com.lj.apps.demo.Utils.service.MusicService" />
         <!--定位service-->
         <service
             android:name="com.baidu.location.f"
