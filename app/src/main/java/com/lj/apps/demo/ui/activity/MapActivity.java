@@ -174,7 +174,6 @@ public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickL
                 }
             });
         }
-
     }
 
     @Override
