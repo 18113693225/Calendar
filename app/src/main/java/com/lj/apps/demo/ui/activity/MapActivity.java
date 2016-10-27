@@ -156,19 +156,22 @@ public class MapActivity extends BaseActivity implements BaiduMap.OnMarkerClickL
         return true;
     }
 
-
     private void showWindow(Marker marker) {
-        Button button = new Button(getApplicationContext());
-        button.setBackgroundResource(R.drawable.popup);
-        button.setText(marker.getTitle());
-        LatLng ll = marker.getPosition();
-        mInfoWindow = new InfoWindow(button, ll, -47);
-        baiduMap.showInfoWindow(mInfoWindow);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                baiduMap.hideInfoWindow();
-                Navigator.startTitleActivity(MapActivity.this);
-            }
-        });
+        if (!marker.getTitle().isEmpty()) {
+            Button button = new Button(getApplicationContext());
+            button.setBackgroundResource(R.drawable.popup);
+            button.setTextColor(getResources().getColor(R.color.black));
+            button.setText(marker.getTitle());
+            LatLng ll = marker.getPosition();
+            mInfoWindow = new InfoWindow(button, ll, -47);
+            baiduMap.showInfoWindow(mInfoWindow);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    baiduMap.hideInfoWindow();
+                    Navigator.startTitleActivity(MapActivity.this);
+                }
+            });
+        }
+
     }
 }
