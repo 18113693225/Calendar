@@ -23,12 +23,15 @@ android {
             manifestPlaceholders =
                     [amap_api_key: "stYzPvQNy1a4HdXBEPvxR97psD7Xy2ei"]
             signingConfig signingConfigs.config
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             manifestPlaceholders =
                     [amap_api_key: "stYzPvQNy1a4HdXBEPvxR97psD7Xy2ei"]
+            minifyEnabled true
+            shrinkResources true
             signingConfig signingConfigs.config
         }
     }
@@ -36,7 +39,7 @@ android {
         // checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
-        abortOnError false
+        abortOnError true
         ignoreWarnings true
     }
 
