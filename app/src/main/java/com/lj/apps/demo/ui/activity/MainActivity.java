@@ -3,6 +3,9 @@ package com.lj.apps.demo.ui.activity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.lj.apps.demo.Navigator;
 import com.lj.apps.demo.R;
@@ -40,22 +44,23 @@ public class MainActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initData();
+        initImageView();
         showRecyclerView();
     }
 
 
     private void initData() {
-        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) img.getLayoutParams();
-        Log.i("TAG", "高度 " + lp.width + "  宽度" + lp.height);
         for (int i = 0; i < 8; i++) {
             Home home = new Home();
             home.title = "demo" + i;
             home.image = images[i];
             homes.add(home);
         }
-        img.setImageResource(homes.get(0).image);
     }
 
+    private void initImageView() {
+        img.setImageResource(homes.get(0).image);
+    }
 
     private void showRecyclerView() {
         mAdapter = new HomeAdapter(MainActivity.this, homes, this);
@@ -72,11 +77,6 @@ public class MainActivity extends BaseActivity implements
     private void scrollListener() {
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private Double totalDy = 0.0;
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -105,5 +105,4 @@ public class MainActivity extends BaseActivity implements
             }
         }
     }
-
 }
